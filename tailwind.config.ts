@@ -9,8 +9,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Roboto', 'sans-serif'],
-        headline: ['"Open Sans"', 'sans-serif'],
+        body: ['Montserrat', 'sans-serif'],
+        headline: ['"Source Sans Pro"', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
