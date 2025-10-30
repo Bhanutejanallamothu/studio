@@ -41,6 +41,7 @@ const timeSlots = [
 export default function MentorshipPage() {
   const { toast } = useToast();
   const mentorAvatar = PlaceHolderImages.find(p => p.id === 'mentor-avatar');
+  const [open, setOpen] = useState(false);
 
   const [learningGoals, setLearningGoals] = useState<LearningGoal[]>([
     { title: "Master System Design", progress: 85 },
@@ -97,6 +98,8 @@ export default function MentorshipPage() {
         title: "Session Scheduled!",
         description: `Your session with Dr. Sarah Chen has been booked for ${format(selectedDate, "PPP")} at ${selectedTime}.`,
       });
+      setOpen(false);
+      setSelectedTime(null);
     } else {
        toast({
         variant: "destructive",
@@ -107,7 +110,7 @@ export default function MentorshipPage() {
   };
 
   const ScheduleSessionDialog = ({ trigger }: { trigger: React.ReactNode}) => (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
             {trigger}
         </DialogTrigger>
@@ -148,9 +151,7 @@ export default function MentorshipPage() {
                 <DialogClose asChild>
                     <Button variant="outline">Cancel</Button>
                 </DialogClose>
-                <DialogClose asChild>
-                    <Button onClick={handleSchedule} disabled={!selectedDate || !selectedTime}>Schedule</Button>
-                </DialogClose>
+                <Button onClick={handleSchedule} disabled={!selectedDate || !selectedTime}>Schedule</Button>
             </DialogFooter>
         </DialogContent>
     </Dialog>
@@ -298,3 +299,5 @@ export default function MentorshipPage() {
     </div>
   );
 }
+
+    
