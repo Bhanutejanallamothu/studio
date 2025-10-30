@@ -14,7 +14,7 @@ import { PanelLeft } from "lucide-react";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-0 flex h-16 items-center gap-4 border-b bg-background px-4 md:px-6 z-40">
+      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-6xl items-center gap-4 rounded-full border bg-background/80 p-2 shadow-lg backdrop-blur-sm md:px-6">
         <div className="flex items-center gap-6">
             <Logo />
             <div className="hidden md:flex">
@@ -39,15 +39,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
               <Button
                 variant="outline"
                 size="icon"
-                className="shrink-0 md:hidden"
+                className="shrink-0 rounded-full md:hidden"
               >
                 <PanelLeft className="h-5 w-5" />
                 <span className="sr-only">Toggle navigation menu</span>
               </Button>
             </SheetTrigger>
-            <SheetContent side="left">
+            <SheetContent side="left" className="p-0">
                <div className="flex flex-col h-full">
-                <div className="p-4 border-b">
+                <div className="p-6 border-b">
                     <Logo />
                 </div>
                 <div className="flex-1 overflow-y-auto">

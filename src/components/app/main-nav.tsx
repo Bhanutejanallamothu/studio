@@ -68,15 +68,15 @@ export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
   }
 
   return (
-    <nav className="flex items-center space-x-4 lg:space-x-6">
+    <nav className="flex items-center space-x-2 lg:space-x-4">
       {mainLinks.map((link) => (
         <Link
           key={link.href}
           href={link.href}
           className={cn(
-            "text-sm font-medium transition-colors hover:text-primary",
+            "rounded-full px-3 py-1.5 text-sm font-medium transition-colors hover:text-primary hover:bg-muted",
             pathname.startsWith(link.href)
-              ? "text-foreground"
+              ? "bg-primary text-primary-foreground hover:bg-primary/90 hover:text-primary-foreground"
               : "text-muted-foreground"
           )}
         >
