@@ -60,6 +60,26 @@ export const mockTickets: Ticket[] = [
         assignedTo: "Alex Kumar",
         reportedBy: "User Feedback",
         created: "Aug 11, 2024"
+    },
+    {
+        id: "2003",
+        title: "API endpoint returning 500 error",
+        description: "The /api/users endpoint is returning a 500 Internal Server Error when a valid request is made.",
+        priority: "HIGH",
+        status: "NEW",
+        assignedTo: "Raj Patel",
+        reportedBy: "Priya Sharma",
+        created: "Aug 12, 2024"
+    },
+    {
+        id: "2004",
+        title: "Update documentation for billing API",
+        description: "The documentation for the billing API is outdated and needs to be updated with the new endpoints.",
+        priority: "LOW",
+        status: "CLOSED",
+        assignedTo: "Alex Kumar",
+        reportedBy: "Raj Patel",
+        created: "Aug 09, 2024"
     }
 ];
 
