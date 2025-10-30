@@ -38,6 +38,51 @@ import {
 } from "@/lib/data";
 
 export default function AnalyticsPage() {
+
+  const handleExport = () => {
+    let csvContent = "data:text/csv;charset=utf-8,";
+
+    // Task Completion Data
+    csvContent += "Task Completion Trend\n";
+    const taskHeaders = Object.keys(taskCompletionData[0]);
+    csvContent += taskHeaders.join(",") + "\n";
+    taskCompletionData.forEach(row => {
+        const values = taskHeaders.map(header => row[header as keyof typeof row]);
+        csvContent += values.join(",") + "\n";
+    });
+
+    csvContent += "\n"; // Add a blank line for spacing
+
+    // Track Progress Data
+    csvContent += "Track Progress by Area\n";
+    const progressHeaders = Object.keys(trackProgressData[0]);
+    csvContent += progressHeaders.join(",") + "\n";
+    trackProgressData.forEach(row => {
+        const values = progressHeaders.map(header => row[header as keyof typeof row]);
+        csvContent += values.join(",") + "\n";
+    });
+    
+    csvContent += "\n";
+
+    // Skills Development Data
+    csvContent += "Skills Development\n";
+    const skillsHeaders = ["Skill", "Proficiency"];
+    csvContent += skillsHeaders.join(",") + "\n";
+    skillsDevelopmentData.forEach(row => {
+        csvContent += `${row.name},${row.value}\n`;
+    });
+
+
+    const encodedUri = encodeURI(csvContent);
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", "analytics_report.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-8">
@@ -46,7 +91,7 @@ export default function AnalyticsPage() {
         </h1>
         <div className="flex gap-2 items-center">
           <Button variant="outline">Last 30 days</Button>
-          <Button>
+          <Button onClick={handleExport}>
             <Download className="mr-2 h-4 w-4" />
             Export Report
           </Button>
