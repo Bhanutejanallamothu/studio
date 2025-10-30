@@ -2,105 +2,154 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Progress } from "@/components/ui/progress";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Calendar, Clock, Video } from "lucide-react";
+import { Calendar, Star } from "lucide-react";
 
 export default function MentorshipPage() {
   const mentorAvatar = PlaceHolderImages.find(p => p.id === 'mentor-avatar');
+  
   const learningGoals = [
-    { id: "lg1", label: "Master Next.js Server Components", completed: true },
-    { id: "lg2", label: "Improve Tailwind CSS skills for responsive design", completed: true },
-    { id: "lg3", label: "Understand state management with Context API", completed: false },
-    { id: "lg4", label: "Learn to deploy applications on Vercel", completed: false },
+    { title: "Master System Design", progress: 85 },
+    { title: "Cloud Architecture Certification", progress: 45 },
   ];
+
+  const upcomingSessions = [
+    {
+      title: "Code Review & Architecture Discussion",
+      mentor: "Dr. Sarah Chen",
+      time: "Tomorrow, 2:00 PM",
+      duration: "1 hour session",
+    },
+     {
+      title: "Career Goals & Planning",
+      mentor: "Dr. Sarah Chen",
+      time: "Next week",
+      duration: "30 min session",
+    },
+  ];
+
+  const recentFeedbacks = [
+    {
+        title: "Authentication Module Review",
+        date: "Aug 15, 2024",
+        feedback: "“Excellent implementation of JWT tokens. Consider adding rate limiting for enhanced security.”",
+        rating: 4
+    },
+    {
+        title: "Database Schema Design",
+        date: "Aug 01, 2024",
+        feedback: "“Well-structured schema. The use of indexing is efficient. Good job.”",
+        rating: 5
+    }
+  ]
 
   return (
     <div className="container mx-auto p-4">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold font-headline tracking-tight">Mentorship</h1>
-        <p className="text-muted-foreground">
-          Connect with your mentor and track your learning goals.
-        </p>
+      <div className="flex justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold font-headline tracking-tight">Mentorship Program</h1>
+        <Button>
+          <Calendar className="mr-2 h-4 w-4" />
+          Schedule Session
+        </Button>
       </div>
-      <div className="grid gap-8 md:grid-cols-3">
-        <div className="md:col-span-1 flex flex-col gap-8">
-          <Card>
-            <CardHeader className="items-center text-center">
-              <Avatar className="h-24 w-24 mb-4">
-                {mentorAvatar && <AvatarImage src={mentorAvatar.imageUrl} alt="Mentor Avatar" data-ai-hint={mentorAvatar.imageHint} />}
-                <AvatarFallback>DR</AvatarFallback>
-              </Avatar>
-              <CardTitle className="font-headline">Dr. Evelyn Reed</CardTitle>
-              <CardDescription>Senior Software Architect @ Google</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <p className="text-sm text-muted-foreground text-center">
-                Evelyn is a specialist in distributed systems and AI with over 15 years of experience.
-              </p>
-              <Button className="w-full mt-4" variant="outline">Send Message</Button>
-            </CardContent>
-          </Card>
+      <div className="grid gap-6 lg:grid-cols-3 mb-6">
+        <Card className="lg:col-span-3">
+          <CardContent className="p-6 flex flex-col md:flex-row items-center gap-6">
+            <Avatar className="h-24 w-24">
+              {mentorAvatar && <AvatarImage src={mentorAvatar.imageUrl} alt="Mentor Avatar" data-ai-hint={mentorAvatar.imageHint} />}
+              <AvatarFallback>SC</AvatarFallback>
+            </Avatar>
+            <div className="flex-1 text-center md:text-left">
+              <div className="flex items-center justify-center md:justify-start gap-2">
+                <h2 className="text-xl font-bold font-headline">Dr. Sarah Chen</h2>
+                <div className="flex items-center gap-1 text-sm">
+                    <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                    <span>4.9</span>
+                </div>
+              </div>
+              <p className="text-muted-foreground">Senior Software Architect, Google</p>
+              <p className="text-sm text-muted-foreground mt-2">12 years experience • 6 mentees • Software Architecture specialist</p>
+              <div className="flex flex-wrap gap-2 mt-4 justify-center md:justify-start">
+                <Badge variant="secondary">System Design</Badge>
+                <Badge variant="secondary">Microservices</Badge>
+                <Badge variant="secondary">Cloud Architecture</Badge>
+              </div>
+            </div>
+            <div className="flex gap-2 shrink-0">
+                <Button variant="outline">View Profile</Button>
+                <Button>Schedule</Button>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
 
-          <Card>
+      <div className="grid gap-6 lg:grid-cols-3 mb-6">
+         <Card>
             <CardHeader>
-              <CardTitle>Upcoming Session</CardTitle>
-              <CardDescription>Your next one-on-one session.</CardDescription>
+                <CardTitle>Upcoming Sessions</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-4">
-                <div className="flex items-center gap-2">
-                    <Calendar className="h-5 w-5 text-muted-foreground" />
-                    <span className="font-medium">August 28, 2024</span>
-                </div>
-                <div className="flex items-center gap-2">
-                    <Clock className="h-5 w-5 text-muted-foreground" />
-                    <span className="font-medium">4:00 PM - 4:30 PM (PST)</span>
-                </div>
-                <Button className="w-full mt-2">
-                    <Video className="mr-2 h-4 w-4" />
-                    Join Meeting
-                </Button>
-            </CardContent>
-          </Card>
-        </div>
-
-        <div className="md:col-span-2 flex flex-col gap-8">
-          <Card>
+            <ScrollArea className="h-48">
+                <CardContent className="grid gap-4">
+                    {upcomingSessions.map((session, index) => (
+                        <div key={index} className="p-4 border rounded-lg">
+                            <p className="font-semibold">{session.title}</p>
+                            <p className="text-sm text-muted-foreground">With {session.mentor}</p>
+                            <p className="text-sm font-bold my-2">{session.time}</p>
+                            <p className="text-xs text-muted-foreground mb-4">{session.duration}</p>
+                            <div className="flex gap-2">
+                                <Button size="sm" className="w-full">Join</Button>
+                                <Button size="sm" variant="outline" className="w-full">Reschedule</Button>
+                            </div>
+                        </div>
+                    ))}
+                </CardContent>
+            </ScrollArea>
+        </Card>
+        <Card>
             <CardHeader>
-              <CardTitle>Learning Goals</CardTitle>
-              <CardDescription>Track your progress against your goals.</CardDescription>
+                <CardTitle>Recent Feedback</CardTitle>
             </CardHeader>
-            <CardContent className="grid gap-4">
-              {learningGoals.map(goal => (
-                <div key={goal.id} className="flex items-center space-x-3 rounded-md border p-4">
-                  <Checkbox id={goal.id} checked={goal.completed} />
-                  <label
-                    htmlFor={goal.id}
-                    className={`text-sm font-medium leading-none ${goal.completed ? 'line-through text-muted-foreground' : ''} peer-disabled:cursor-not-allowed peer-disabled:opacity-70`}
-                  >
-                    {goal.label}
-                  </label>
+            <ScrollArea className="h-48">
+                <CardContent className="grid gap-4">
+                     {recentFeedbacks.map((fb, index) => (
+                        <div key={index} className="p-4 border rounded-lg">
+                            <div className="flex justify-between items-baseline">
+                                <p className="font-semibold">{fb.title}</p>
+                                <p className="text-xs text-muted-foreground">{fb.date}</p>
+                            </div>
+                            <p className="text-sm text-muted-foreground italic my-2">{fb.feedback}</p>
+                            <div className="flex items-center gap-0.5">
+                                {[...Array(5)].map((_, i) => (
+                                    <Star key={i} className={`w-4 h-4 ${i < fb.rating ? 'text-yellow-500 fill-yellow-500' : 'text-muted-foreground/50'}`} />
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </CardContent>
+            </ScrollArea>
+             <CardContent className="pt-0">
+                <Button variant="outline" className="w-full mt-4">View All Feedback</Button>
+             </CardContent>
+        </Card>
+         <Card>
+          <CardHeader>
+            <CardTitle>Learning Goals</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-6">
+            {learningGoals.map((goal, index) => (
+              <div key={index}>
+                <div className="flex justify-between items-center mb-1">
+                    <p className="text-sm font-medium">{goal.title}</p>
+                    <p className="text-sm text-muted-foreground">Progress: {goal.progress}%</p>
                 </div>
-              ))}
-            </CardContent>
-          </Card>
-           <Card>
-            <CardHeader>
-              <CardTitle>Recent Feedback</CardTitle>
-              <CardDescription>Latest feedback from your mentor.</CardDescription>
-            </CardHeader>
-            <CardContent className="grid gap-4">
-                <div className="border-l-4 border-primary pl-4">
-                    <p className="text-sm italic">"Your work on the API authentication module was exceptional. Pay close attention to error handling in edge cases for the next phase. Great progress!"</p>
-                    <p className="text-xs text-muted-foreground mt-2">- Dr. Reed, 2 days ago</p>
-                </div>
-                 <div className="border-l-4 border-border pl-4">
-                    <p className="text-sm italic">"The component structure you've set up is clean and scalable. Consider abstracting the form logic into a custom hook to improve reusability."</p>
-                    <p className="text-xs text-muted-foreground mt-2">- Dr. Reed, 1 week ago</p>
-                </div>
-            </CardContent>
-          </Card>
-        </div>
+                <Progress value={goal.progress} />
+              </div>
+            ))}
+             <Button variant="outline" className="w-full">Add New Goal</Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
