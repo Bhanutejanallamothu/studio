@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <Sidebar variant="inset" collapsible="icon">
+      <Sidebar variant="sidebar" collapsible="icon">
         <SidebarHeader>
           <Logo />
         </SidebarHeader>

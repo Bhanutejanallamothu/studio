@@ -6,10 +6,6 @@ import { AdminDashboard } from "@/components/app/dashboard/admin-dashboard";
 export default function DashboardPage() {
   return (
     <div className="flex flex-col gap-4">
-        <div>
-            <h1 className="text-3xl font-bold font-headline tracking-tight">Dashboard</h1>
-            <p className="text-muted-foreground">Welcome to your Virtual Internship workspace.</p>
-        </div>
         <Tabs defaultValue="student" className="w-full">
             <TabsList className="grid w-full grid-cols-3 max-w-md">
                 <TabsTrigger value="student">Student</TabsTrigger>
