@@ -5,13 +5,15 @@ import { AdminDashboard } from "@/components/app/dashboard/admin-dashboard";
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col items-center gap-4">
-        <Tabs defaultValue="student" className="w-full max-w-md">
-            <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="student">Student</TabsTrigger>
-                <TabsTrigger value="pm">Project Manager</TabsTrigger>
-                <TabsTrigger value="admin">Admin</TabsTrigger>
-            </TabsList>
+    <div className="flex flex-col gap-4">
+        <Tabs defaultValue="student" className="w-full">
+            <div className="flex justify-center">
+                <TabsList className="grid w-full max-w-md grid-cols-3">
+                    <TabsTrigger value="student">Student</TabsTrigger>
+                    <TabsTrigger value="pm">Project Manager</TabsTrigger>
+                    <TabsTrigger value="admin">Admin</TabsTrigger>
+                </TabsList>
+            </div>
             <TabsContent value="student" className="mt-4">
                 <StudentDashboard />
             </TabsContent>
