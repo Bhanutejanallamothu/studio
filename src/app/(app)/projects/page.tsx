@@ -9,6 +9,12 @@ import { Download, Plus, Play, Power } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Task } from "@/lib/types";
+import { useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useToast } from "@/hooks/use-toast";
 
 const TaskCard = ({ task }: { task: Task }) => {
   return (
@@ -32,7 +38,17 @@ const TaskCard = ({ task }: { task: Task }) => {
   )
 }
 
-const ProjectCard = ({ project, vmRunning, progress }: { project: typeof mockProjects[0], vmRunning: boolean, progress: number }) => {
+const ProjectCard = ({ project, vmRunning, onToggleVm, progress }: { project: typeof mockProjects[0], vmRunning: boolean, onToggleVm: () => void, progress: number }) => {
+  const { toast } = useToast();
+
+  const handleVmAction = () => {
+    onToggleVm();
+    toast({
+        title: vmRunning ? "VM Stopping" : "VM Starting",
+        description: `The VM for "${project.title}" is being ${vmRunning ? 'stopped' : 'started'}.`
+    });
+  }
+
   return (
     <Card className="flex-1">
       <CardHeader>
@@ -71,9 +87,9 @@ const ProjectCard = ({ project, vmRunning, progress }: { project: typeof mockPro
             <Button variant="outline" className="w-full" asChild>
                 <Link href={`/projects/${project.id}`}>View Details</Link>
             </Button>
-            <Button className="w-full">
-                {vmRunning ? <Play className="mr-2" /> : <Power className="mr-2" />}
-                {vmRunning ? "Launch VM" : "Start VM"}
+            <Button className="w-full" onClick={handleVmAction}>
+                {vmRunning ? <Power className="mr-2" /> : <Play className="mr-2" />}
+                {vmRunning ? "Stop VM" : "Start VM"}
             </Button>
         </div>
       </CardContent>
@@ -82,21 +98,97 @@ const ProjectCard = ({ project, vmRunning, progress }: { project: typeof mockPro
 }
 
 export default function ProjectsPage() {
+    const { toast } = useToast();
     const tasksByStatus = (status: string) => mockTasks.filter(t => t.status === status);
+    const [vmStates, setVmStates] = useState({ p1: true, p2: false });
+    const [tasks, setTasks] = useState(mockTasks);
+    const [newTaskTitle, setNewTaskTitle] = useState("");
+    const [newTaskStatus, setNewTaskStatus] = useState<Task['status']>('To Do');
+
+    const handleToggleVm = (projectId: string) => {
+        setVmStates(prev => ({...prev, [projectId]: !prev[projectId]}));
+    }
+
+    const handleCreateTask = () => {
+        if (!newTaskTitle) {
+            toast({ variant: 'destructive', title: 'Task title is required.' });
+            return;
+        }
+        const newTask: Task = {
+            id: `t${tasks.length + 1}`,
+            title: newTaskTitle,
+            status: newTaskStatus,
+            dueDate: new Date().toISOString().split('T')[0],
+        };
+        setTasks(prev => [newTask, ...prev]);
+        toast({ title: 'Task created!', description: `Task "${newTaskTitle}" has been added.` });
+        setNewTaskTitle("");
+    }
+
 
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold font-headline tracking-tight">Project Management</h1>
         <div className="flex gap-2">
-            <Button variant="outline"><Download className="mr-2 h-4 w-4"/>Export</Button>
-            <Button><Plus className="mr-2 h-4 w-4"/>New Task</Button>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button variant="outline"><Download className="mr-2 h-4 w-4"/>Export</Button>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Export Data</DialogTitle>
+                        <DialogDescription>
+                            This feature is coming soon. You'll be able to export project data in various formats.
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <DialogClose asChild>
+                            <Button>OK</Button>
+                        </DialogClose>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
+            <Dialog>
+                <DialogTrigger asChild>
+                    <Button><Plus className="mr-2 h-4 w-4"/>New Task</Button>
+                </DialogTrigger>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Create New Task</DialogTitle>
+                    </DialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="task-title" className="text-right">Title</Label>
+                            <Input id="task-title" value={newTaskTitle} onChange={(e) => setNewTaskTitle(e.target.value)} className="col-span-3" placeholder="e.g., Implement dark mode"/>
+                        </div>
+                        <div className="grid grid-cols-4 items-center gap-4">
+                            <Label htmlFor="task-status" className="text-right">Status</Label>
+                            <Select onValueChange={(value: Task['status']) => setNewTaskStatus(value)} defaultValue={newTaskStatus}>
+                                <SelectTrigger className="col-span-3">
+                                    <SelectValue placeholder="Select status" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="To Do">To Do</SelectItem>
+                                    <SelectItem value="In Progress">In Progress</SelectItem>
+                                    <SelectItem value="Under Review">Under Review</SelectItem>
+                                    <SelectItem value="Done">Done</SelectItem>
+                                </SelectContent>
+                            </Select>
+                        </div>
+                    </div>
+                    <DialogFooter>
+                        <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
+                        <DialogClose asChild><Button onClick={handleCreateTask}>Create Task</Button></DialogClose>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </div>
       </div>
 
       <div className="flex gap-6 mb-8">
-        <ProjectCard project={mockProjects[0]} vmRunning={true} progress={68} />
-        <ProjectCard project={mockProjects[1]} vmRunning={false} progress={84} />
+        <ProjectCard project={mockProjects[0]} vmRunning={vmStates.p1} onToggleVm={() => handleToggleVm('p1')} progress={68} />
+        <ProjectCard project={mockProjects[1]} vmRunning={vmStates.p2} onToggleVm={() => handleToggleVm('p2')} progress={84} />
       </div>
 
       <div className="grid grid-cols-4 gap-6">
@@ -107,19 +199,6 @@ export default function ProjectsPage() {
             </div>
             <div className="flex flex-col gap-4">
                 {tasksByStatus("To Do").map(task => <TaskCard key={task.id} task={task} />)}
-                <Card>
-                  <CardContent className="pt-4">
-                    <h4 className="font-semibold text-sm">Update documentation</h4>
-                    <p className="text-xs text-muted-foreground mt-2 mb-3">Review and update API documentation.</p>
-                    <div className="flex justify-between items-center">
-                        <Badge variant="secondary" className="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">3 SP</Badge>
-                        <Avatar className="h-6 w-6">
-                            <AvatarImage src="https://picsum.photos/seed/user2/40/40" />
-                            <AvatarFallback>B</AvatarFallback>
-                        </Avatar>
-                    </div>
-                  </CardContent>
-                </Card>
             </div>
         </div>
          <div>
@@ -129,19 +208,6 @@ export default function ProjectsPage() {
             </div>
             <div className="flex flex-col gap-4">
                 {tasksByStatus("In Progress").map(task => <TaskCard key={task.id} task={task} />)}
-                 <Card>
-                  <CardContent className="pt-4">
-                    <h4 className="font-semibold text-sm">Setup CI/CD pipeline</h4>
-                    <p className="text-xs text-muted-foreground mt-2 mb-3">Configure automated deployment with Docker.</p>
-                     <div className="flex justify-between items-center">
-                        <Badge variant="secondary" className="bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300">10 SP</Badge>
-                         <Avatar className="h-6 w-6">
-                            <AvatarImage src="https://picsum.photos/seed/user1/40/40" />
-                            <AvatarFallback>A</AvatarFallback>
-                        </Avatar>
-                    </div>
-                  </CardContent>
-                </Card>
             </div>
         </div>
          <div>
@@ -166,3 +232,5 @@ export default function ProjectsPage() {
     </div>
   );
 }
+
+    
