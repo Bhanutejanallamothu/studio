@@ -1,19 +1,23 @@
+"use client";
+
+import { useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { mockUsers } from "@/lib/data";
 import { Hash, Send } from "lucide-react";
+import type { User } from "@/lib/types";
 
-const channels = [
-  { name: "team-alpha-general", unread: 0, active: true },
+const channelsData = [
+  { name: "team-alpha-general", unread: 0 },
   { name: "development", unread: 3 },
   { name: "announcements", unread: 1 },
 ];
 
 const teamMembers = mockUsers.slice(0, 4).map((user, i) => ({...user, online: i < 3}));
 
-const messages = [
+const initialMessages: { user: Partial<User>; time: string; text: string }[] = [
     {
         user: { name: 'Priya Sharma', avatarUrl: mockUsers[0].avatarUrl },
         time: '10:45 PM',
@@ -24,9 +28,33 @@ const messages = [
         time: '10:50 PM',
         text: 'Authentication module is ready for code review. Please check the PR when you get a chance.'
     }
-]
+];
+
+const currentUser = {
+    name: "Jane Doe",
+    avatarUrl: "https://images.unsplash.com/photo-1695470667338-e7e8608ff048?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwZXJzb24lMjBmYWNlfGVufDB8fHx8MTc2MTc1MzE2MHww&ixlib=rb-4.1.0&q=80&w=1080",
+};
 
 export default function ChatsPage() {
+  const [activeChannel, setActiveChannel] = useState(channelsData[0].name);
+  const [messages, setMessages] = useState(initialMessages);
+  const [newMessage, setNewMessage] = useState("");
+
+  const handleSendMessage = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newMessage.trim() === "") return;
+
+    const message = {
+      user: currentUser,
+      time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      text: newMessage.trim(),
+    };
+
+    setMessages([...messages, message]);
+    setNewMessage("");
+  };
+
+
   return (
     <div className="flex h-[calc(100vh-theme(spacing.20))]">
       <div className="w-80 flex-shrink-0 border-r bg-card text-card-foreground">
@@ -38,11 +66,12 @@ export default function ChatsPage() {
             <div className="p-4">
               <h3 className="mb-2 text-sm font-semibold text-muted-foreground">CHANNELS</h3>
               <ul className="space-y-1">
-                {channels.map((channel) => (
+                {channelsData.map((channel) => (
                   <li key={channel.name}>
                     <Button
-                      variant={channel.active ? "secondary" : "ghost"}
+                      variant={activeChannel === channel.name ? "secondary" : "ghost"}
                       className="w-full justify-start"
+                      onClick={() => setActiveChannel(channel.name)}
                     >
                       <Hash className="mr-2 h-4 w-4" />
                       <span className="flex-1 truncate">{channel.name}</span>
@@ -83,15 +112,15 @@ export default function ChatsPage() {
       </div>
       <div className="flex flex-1 flex-col">
         <div className="border-b p-4">
-            <h2 className="text-lg font-semibold">@team-alpha-general</h2>
+            <h2 className="text-lg font-semibold">@{activeChannel}</h2>
         </div>
         <div className="flex-1 overflow-y-auto p-6">
             <div className="space-y-6">
                 {messages.map((msg, index) => (
                     <div key={index} className="flex items-start gap-3">
                         <Avatar className="h-10 w-10">
-                            <AvatarImage src={msg.user.avatarUrl} />
-                            <AvatarFallback>{msg.user.name.charAt(0)}</AvatarFallback>
+                            {msg.user.avatarUrl && <AvatarImage src={msg.user.avatarUrl} />}
+                            <AvatarFallback>{msg.user.name?.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div>
                             <div className="flex items-baseline gap-2">
@@ -107,12 +136,17 @@ export default function ChatsPage() {
             </div>
         </div>
         <div className="border-t p-4">
-            <div className="relative">
-                <Input placeholder="Type a message..." className="pr-12" />
-                <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8">
+            <form onSubmit={handleSendMessage} className="relative">
+                <Input 
+                  placeholder="Type a message..." 
+                  className="pr-12"
+                  value={newMessage}
+                  onChange={(e) => setNewMessage(e.target.value)}
+                />
+                <Button type="submit" variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-8 w-8">
                     <Send className="h-4 w-4" />
                 </Button>
-            </div>
+            </form>
         </div>
       </div>
     </div>
