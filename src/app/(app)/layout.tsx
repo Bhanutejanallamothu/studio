@@ -28,23 +28,23 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-6xl items-center gap-4 rounded-full border bg-background/80 p-2 shadow-lg backdrop-blur-sm md:px-6">
-        <div className="flex items-center gap-6">
+      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-6xl items-center gap-4 rounded-full border bg-background/80 p-2 shadow-lg backdrop-blur-sm md:px-4">
+        <div className="flex items-center gap-4">
             <Logo />
             <div className="hidden md:flex">
                 <MainNav />
             </div>
         </div>
         
-        <div className="flex w-full items-center gap-4 md:ml-auto md:gap-2 lg:gap-4">
-            <form className="ml-auto flex-1 sm:flex-initial" onSubmit={handleSearch}>
-                 <div className="relative">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+        <div className="flex flex-1 items-center justify-end gap-4">
+            <form className="hidden sm:flex flex-1 max-w-sm" onSubmit={handleSearch}>
+                 <div className="relative w-full">
+                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input
                     type="search"
                     name="search"
                     placeholder="Search..."
-                    className="pl-8 sm:w-[300px] md:w-[200px] lg:w-[300px]"
+                    className="pl-9 w-full"
                     />
                 </div>
             </form>
@@ -64,6 +64,19 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                <div className="flex flex-col h-full">
                 <div className="p-6 border-b">
                     <Logo />
+                </div>
+                <div className="p-4">
+                    <form className="w-full" onSubmit={handleSearch}>
+                        <div className="relative">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                                type="search"
+                                name="search"
+                                placeholder="Search..."
+                                className="pl-9 w-full"
+                            />
+                        </div>
+                    </form>
                 </div>
                 <div className="flex-1 overflow-y-auto">
                     <MainNav isMobile={true} />
