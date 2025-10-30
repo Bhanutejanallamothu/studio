@@ -8,26 +8,26 @@ export const mockUsers: User[] = [
 ];
 
 export const mockTasks: Task[] = [
-  { id: "t1", title: "Setup development environment", status: "Done", assignee: mockUsers[0], dueDate: "2024-08-01" },
-  { id: "t2", title: "Design database schema", status: "In Progress", assignee: mockUsers[1], dueDate: "2024-08-05" },
-  { id: "t3", title: "Implement authentication API", status: "In Progress", assignee: mockUsers[0], dueDate: "2024-08-10" },
-  { id: "t4", title: "Create dashboard UI", status: "To Do", dueDate: "2024-08-15" },
-  { id: "t5", title: "Write unit tests for API", status: "To Do", dueDate: "2024-08-20" },
-  { id: "t6", title: "Deploy to staging server", status: "Under Review", assignee: mockUsers[1], dueDate: "2024-08-25" },
+  { id: "t1", title: "Write API integration tests", status: "Done", assignee: mockUsers[0], dueDate: "2024-08-01" },
+  { id: "t2", title: "Design course catalog UI", status: "To Do", assignee: mockUsers[1], dueDate: "2024-08-05" },
+  { id: "t3", title: "Implement user authentication", status: "In Progress", assignee: mockUsers[0], dueDate: "2024-08-10" },
+  { id: "t4", title: "Create dashboard UI", status: "To Do", dueDate: "2024-08-15", assignee: mockUsers[1] },
+  { id: "t5", title: "Write unit tests for API", status: "To Do", dueDate: "2024-08-20", assignee: mockUsers[0] },
+  { id: "t6", title: "Database schema design", status: "Under Review", assignee: mockUsers[1], dueDate: "2024-08-25" },
 ];
 
 export const mockProjects: Project[] = [
   { 
     id: "p1", 
-    title: "AI-Powered Analytics Dashboard", 
-    description: "Build a real-time analytics dashboard with predictive insights.",
+    title: "E-Learning Platform", 
+    description: "A comprehensive online learning management system with video streaming, assessments, and progress tracking.",
     techStack: ["Next.js", "Tailwind CSS", "Genkit", "Recharts"],
     tasks: mockTasks,
   },
   {
     id: "p2",
-    title: "E-commerce Recommendation Engine",
-    description: "Develop a personalized product recommendation engine for an e-commerce platform.",
+    title: "Task Management System",
+    description: "Enterprise-grade task management with team collaboration features.",
     techStack: ["Python", "TensorFlow", "Flask", "React"],
     tasks: [],
   }
