@@ -38,7 +38,9 @@ export default function TicketsPage() {
 
     const filteredTickets = mockTickets.filter(ticket => {
         const matchesSearch = ticket.title.toLowerCase().includes(searchQuery.toLowerCase()) || ticket.description.toLowerCase().includes(searchQuery.toLowerCase());
-        const matchesStatus = statusFilter === "All" || (statusFilter === "Open" && (ticket.status === "NEW" || ticket.status === "IN PROGRESS")) || (statusFilter === "Closed" && ticket.status === "CLOSED");
+        const matchesStatus = statusFilter === "All" || 
+            (statusFilter === "Open" && (ticket.status === "NEW" || ticket.status === "IN PROGRESS")) ||
+            (statusFilter === "Closed" && ticket.status === "CLOSED");
         const matchesPriority = priorityFilter === "All" || ticket.priority === priorityFilter;
         const matchesAssignee = assigneeFilter === "All" || ticket.assignedTo === assigneeFilter;
 
