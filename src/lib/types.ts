@@ -33,3 +33,14 @@ export type Activity = {
   timestamp: string;
   details?: string;
 };
+
+export type Ticket = {
+  id: string;
+  title: string;
+  description: string;
+  priority: 'HIGH' | 'MEDIUM' | 'LOW';
+  status: 'IN PROGRESS' | 'NEW' | 'CLOSED';
+  assignedTo: string;
+  reportedBy: string;
+  created: string;
+}

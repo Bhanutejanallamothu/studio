@@ -1,4 +1,4 @@
-import type { User, Project, Activity, Task } from "./types";
+import type { User, Project, Activity, Task, Ticket } from "./types";
 
 export const mockUsers: User[] = [
   { id: "1", name: "Alice Johnson", email: "alice@example.com", avatarUrl: "https://picsum.photos/seed/user1/40/40", role: "Student" },
@@ -38,6 +38,29 @@ export const mockActivities: Activity[] = [
   { id: "a2", user: mockUsers[1], action: "completed a task", timestamp: "5 hours ago", details: "Design database schema" },
   { id: "a3", user: mockUsers[2], action: "commented on a task", timestamp: "1 day ago", details: "Review of UI mockups" },
   { id: "a4", user: mockUsers[0], action: "created a new task", timestamp: "2 days ago", details: "Add dark mode support" },
+];
+
+export const mockTickets: Ticket[] = [
+    {
+        id: "2001",
+        title: "Login page not responsive on mobile",
+        description: "The login form breaks on mobile devices below 708px width. Users cannot access the submit button and input fields overlap.",
+        priority: "HIGH",
+        status: "IN PROGRESS",
+        assignedTo: "Raj Patel",
+        reportedBy: "Priya Sharma",
+        created: "Aug 10, 2024"
+    },
+    {
+        id: "2002",
+        title: "Add dark mode toggle",
+        description: "Users have requested a dark mode option for better viewing experience during late hours.",
+        priority: "MEDIUM",
+        status: "NEW",
+        assignedTo: "Alex Kumar",
+        reportedBy: "User Feedback",
+        created: "Aug 11, 2024"
+    }
 ];
 
 export const performanceData = [
