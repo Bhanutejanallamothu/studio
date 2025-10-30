@@ -25,11 +25,18 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
+import { cn } from "@/lib/utils";
 
 type LearningGoal = {
   title: string;
   progress: number;
 };
+
+const timeSlots = [
+    "09:00 AM", "10:00 AM", "11:00 AM",
+    "01:00 PM", "02:00 PM", "03:00 PM",
+    "04:00 PM", "05:00 PM",
+];
 
 export default function MentorshipPage() {
   const { toast } = useToast();
@@ -41,6 +48,7 @@ export default function MentorshipPage() {
   ]);
   const [newGoal, setNewGoal] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const [selectedTime, setSelectedTime] = useState<string | null>(null);
 
   const handleAddGoal = () => {
     if (newGoal.trim() !== "") {
@@ -84,10 +92,18 @@ export default function MentorshipPage() {
   ]
 
   const handleSchedule = () => {
-    toast({
-      title: "Session Scheduled!",
-      description: `Your session with Dr. Sarah Chen has been booked for ${selectedDate ? format(selectedDate, "PPP") : "a new date"}.`,
-    });
+    if (selectedDate && selectedTime) {
+      toast({
+        title: "Session Scheduled!",
+        description: `Your session with Dr. Sarah Chen has been booked for ${format(selectedDate, "PPP")} at ${selectedTime}.`,
+      });
+    } else {
+       toast({
+        variant: "destructive",
+        title: "Incomplete Selection",
+        description: `Please select both a date and a time.`,
+      });
+    }
   };
 
   const ScheduleSessionDialog = ({ trigger }: { trigger: React.ReactNode}) => (
@@ -95,27 +111,45 @@ export default function MentorshipPage() {
         <DialogTrigger asChild>
             {trigger}
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-md">
             <DialogHeader>
                 <DialogTitle>Schedule a session</DialogTitle>
                 <DialogDescription>
-                    Select a date to schedule a session with your mentor.
+                    Select a date and time to schedule a session with your mentor.
                 </DialogDescription>
             </DialogHeader>
-            <div className="flex justify-center">
-                <Calendar
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={setSelectedDate}
-                    className="rounded-md border"
-                />
+            <div className="grid gap-4">
+              <div className="flex justify-center">
+                  <Calendar
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={setSelectedDate}
+                      className="rounded-md border"
+                      disabled={(date) => date < new Date(new Date().setDate(new Date().getDate() - 1))}
+                  />
+              </div>
+              <div>
+                <h4 className="text-sm font-medium mb-2">Available Time Slots</h4>
+                <div className="grid grid-cols-4 gap-2">
+                    {timeSlots.map(time => (
+                        <Button 
+                            key={time} 
+                            variant={selectedTime === time ? "default" : "outline"}
+                            onClick={() => setSelectedTime(time)}
+                            className="text-xs"
+                        >
+                            {time}
+                        </Button>
+                    ))}
+                </div>
+              </div>
             </div>
             <DialogFooter>
                 <DialogClose asChild>
                     <Button variant="outline">Cancel</Button>
                 </DialogClose>
                 <DialogClose asChild>
-                    <Button onClick={handleSchedule}>Schedule</Button>
+                    <Button onClick={handleSchedule} disabled={!selectedDate || !selectedTime}>Schedule</Button>
                 </DialogClose>
             </DialogFooter>
         </DialogContent>
@@ -264,5 +298,3 @@ export default function MentorshipPage() {
     </div>
   );
 }
-
-    
