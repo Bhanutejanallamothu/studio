@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -21,17 +20,46 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog"
+} from "@/components/ui/alert-dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+type LearningGoal = {
+  title: string;
+  progress: number;
+};
 
 export default function MentorshipPage() {
   const { toast } = useToast();
   const mentorAvatar = PlaceHolderImages.find(p => p.id === 'mentor-avatar');
-  
-  const learningGoals = [
+
+  const [learningGoals, setLearningGoals] = useState<LearningGoal[]>([
     { title: "Master System Design", progress: 85 },
     { title: "Cloud Architecture Certification", progress: 45 },
-  ];
+  ]);
+  const [newGoal, setNewGoal] = useState("");
 
+  const handleAddGoal = () => {
+    if (newGoal.trim() !== "") {
+      setLearningGoals([...learningGoals, { title: newGoal, progress: 0 }]);
+      setNewGoal("");
+      toast({
+        title: "New Goal Added!",
+        description: `Your goal "${newGoal}" has been added to your list.`,
+      });
+    }
+  };
+  
   const upcomingSessions = [
     {
       title: "Code Review & Architecture Discussion",
@@ -203,13 +231,41 @@ export default function MentorshipPage() {
                 <Progress value={goal.progress} />
               </div>
             ))}
-             <Button variant="outline" className="w-full" onClick={() => toast({ title: "Adding New Goal", description: "A dialog will open to add a new learning goal." })}>Add New Goal</Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="outline" className="w-full">Add New Goal</Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Add New Learning Goal</DialogTitle>
+                  <DialogDescription>
+                    What do you want to learn or improve on?
+                  </DialogDescription>
+                </DialogHeader>
+                <div className="grid gap-4 py-4">
+                  <div className="grid grid-cols-4 items-center gap-4">
+                    <Label htmlFor="goal-title" className="text-right">
+                      Goal
+                    </Label>
+                    <Input
+                      id="goal-title"
+                      value={newGoal}
+                      onChange={(e) => setNewGoal(e.target.value)}
+                      className="col-span-3"
+                      placeholder="e.g., Master React Hooks"
+                    />
+                  </div>
+                </div>
+                <DialogFooter>
+                  <DialogClose asChild>
+                    <Button onClick={handleAddGoal}>Add Goal</Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            </Dialog>
           </CardContent>
         </Card>
       </div>
     </div>
   );
 }
-
-
-    
