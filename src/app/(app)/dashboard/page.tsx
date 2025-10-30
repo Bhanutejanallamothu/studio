@@ -5,9 +5,9 @@ import { AdminDashboard } from "@/components/app/dashboard/admin-dashboard";
 
 export default function DashboardPage() {
   return (
-    <div className="flex flex-col gap-4">
-        <Tabs defaultValue="student" className="w-full">
-            <TabsList className="grid w-full grid-cols-3 max-w-md">
+    <div className="flex flex-col items-center gap-4">
+        <Tabs defaultValue="student" className="w-full max-w-md">
+            <TabsList className="grid w-full grid-cols-3">
                 <TabsTrigger value="student">Student</TabsTrigger>
                 <TabsTrigger value="pm">Project Manager</TabsTrigger>
                 <TabsTrigger value="admin">Admin</TabsTrigger>
