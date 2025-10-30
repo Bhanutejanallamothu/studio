@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -8,19 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { Calendar, Star } from "lucide-react";
+import { Calendar as CalendarIcon, Star } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import {
   Dialog,
   DialogContent,
@@ -33,6 +23,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
 
 type LearningGoal = {
   title: string;
@@ -48,6 +40,7 @@ export default function MentorshipPage() {
     { title: "Cloud Architecture Certification", progress: 45 },
   ]);
   const [newGoal, setNewGoal] = useState("");
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
 
   const handleAddGoal = () => {
     if (newGoal.trim() !== "") {
@@ -93,34 +86,52 @@ export default function MentorshipPage() {
   const handleSchedule = () => {
     toast({
       title: "Session Scheduled!",
-      description: "Your session with Dr. Sarah Chen has been booked.",
+      description: `Your session with Dr. Sarah Chen has been booked for ${selectedDate ? format(selectedDate, "PPP") : "a new date"}.`,
     });
   };
+
+  const ScheduleSessionDialog = ({ trigger }: { trigger: React.ReactNode}) => (
+    <Dialog>
+        <DialogTrigger asChild>
+            {trigger}
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+                <DialogTitle>Schedule a session</DialogTitle>
+                <DialogDescription>
+                    Select a date to schedule a session with your mentor.
+                </DialogDescription>
+            </DialogHeader>
+            <div className="flex justify-center">
+                <Calendar
+                    mode="single"
+                    selected={selectedDate}
+                    onSelect={setSelectedDate}
+                    className="rounded-md border"
+                />
+            </div>
+            <DialogFooter>
+                <DialogClose asChild>
+                    <Button variant="outline">Cancel</Button>
+                </DialogClose>
+                <DialogClose asChild>
+                    <Button onClick={handleSchedule}>Schedule</Button>
+                </DialogClose>
+            </DialogFooter>
+        </DialogContent>
+    </Dialog>
+  )
 
   return (
     <div className="container mx-auto p-4">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold font-headline tracking-tight">Mentorship Program</h1>
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
+        <ScheduleSessionDialog trigger={
             <Button>
-              <Calendar className="mr-2 h-4 w-4" />
+              <CalendarIcon className="mr-2 h-4 w-4" />
               Schedule Session
             </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>Schedule a new session?</AlertDialogTitle>
-              <AlertDialogDescription>
-                This will open a calendar to book a time with your mentor.
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogCancel>Cancel</AlertDialogCancel>
-              <AlertDialogAction onClick={handleSchedule}>Continue</AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        } />
       </div>
       <div className="grid gap-6 lg:grid-cols-3 mb-6">
         <Card className="lg:col-span-3">
@@ -147,23 +158,7 @@ export default function MentorshipPage() {
             </div>
             <div className="flex gap-2 shrink-0">
                 <Button variant="outline" onClick={() => toast({ title: "Coming soon!", description: "Mentor profiles will be available here." })}>View Profile</Button>
-                <AlertDialog>
-                  <AlertDialogTrigger asChild>
-                    <Button>Schedule</Button>
-                  </AlertDialogTrigger>
-                  <AlertDialogContent>
-                    <AlertDialogHeader>
-                      <AlertDialogTitle>Schedule a new session?</AlertDialogTitle>
-                      <AlertDialogDescription>
-                        This will open a calendar to book a time with Dr. Sarah Chen.
-                      </AlertDialogDescription>
-                    </AlertDialogHeader>
-                    <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handleSchedule}>Continue</AlertDialogAction>
-                    </AlertDialogFooter>
-                  </AlertDialogContent>
-                </AlertDialog>
+                <ScheduleSessionDialog trigger={<Button>Schedule</Button>} />
             </div>
           </CardContent>
         </Card>
@@ -269,3 +264,5 @@ export default function MentorshipPage() {
     </div>
   );
 }
+
+    
