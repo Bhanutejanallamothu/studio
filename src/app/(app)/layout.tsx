@@ -10,7 +10,6 @@ import {
 import { Logo } from "@/components/app/logo";
 import { UserNav } from "@/components/app/user-nav";
 import { MainNav } from "@/components/app/main-nav";
-import { ThemeToggle } from "@/components/app/theme-toggle";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -42,7 +41,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             />
           </div>
           <div className="ml-auto flex items-center gap-2">
-            <ThemeToggle />
             <UserNav />
           </div>
         </header>
