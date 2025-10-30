@@ -9,8 +9,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['"IBM Plex Sans"', 'sans-serif'],
-        headline: ['Manrope', 'sans-serif'],
+        body: ['Roboto', 'sans-serif'],
+        headline: ['"Open Sans"', 'sans-serif'],
         code: ['monospace'],
       },
       colors: {
