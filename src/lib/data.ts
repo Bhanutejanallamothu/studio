@@ -48,3 +48,35 @@ export const performanceData = [
     { month: 'May', performance: 82, progress: 75 },
     { month: 'Jun', performance: 90, progress: 85 },
 ];
+
+export const taskCompletionData = [
+    { month: 'Jan', completed: 45 },
+    { month: 'Feb', completed: 52 },
+    { month: 'Mar', completed: 60 },
+    { month: 'Apr', completed: 58 },
+    { month: 'May', completed: 65 },
+    { month: 'Jun', completed: 73 },
+    { month: 'Jul', completed: 80 },
+    { month: 'Aug', completed: 85 },
+];
+
+export const trackProgressData = [
+    { area: 'Design', progress: 90 },
+    { area: 'Frontend', progress: 75 },
+    { area: 'Backend', progress: 80 },
+    { area: 'Testing', progress: 70 },
+    { area: 'Docs', progress: 60 },
+];
+
+export const skillsDevelopmentData = [
+    { name: 'React', value: 75 },
+    { name: 'Node.js', value: 70 },
+    { name: 'Testing (Jest)', value: 60 },
+    { name: 'MongoDB', value: 45 },
+];
+
+export const activityTimelineData = [
+    { action: 'Completed Sprint 3 tasks', timestamp: 'Today, 3:30 PM', color: 'bg-primary' },
+    { action: 'Code review session with mentor', timestamp: 'Yesterday, 2:00 PM', color: 'bg-green-500' },
+    { action: 'Fixed authentication bug', timestamp: 'Aug 17, 4:15 PM', color: 'bg-yellow-500' },
+];
