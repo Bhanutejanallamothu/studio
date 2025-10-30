@@ -18,6 +18,7 @@ import {
   BarChart,
   Bar,
   Rectangle,
+  CartesianGrid,
 } from "recharts";
 import {
   Users,
