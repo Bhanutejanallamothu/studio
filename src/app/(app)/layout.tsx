@@ -24,10 +24,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="flex min-h-screen w-full flex-col">
+    <div className="relative flex min-h-screen w-full flex-col">
       <div id="stars"></div>
       <div id="stars2"></div>
       <div id="stars3"></div>
+      
+      <div className="absolute top-4 right-4 z-50">
+        <UserNav />
+      </div>
+
       <header className="sticky top-4 z-40 mx-auto flex w-full max-w-7xl items-center gap-4 rounded-full border border-white/5 bg-black/10 p-2 shadow-lg backdrop-blur-md md:px-4">
         <div className="flex items-center gap-4">
           <Logo />
@@ -53,7 +58,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </form>
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <UserNav />
           </div>
           <Sheet>
             <SheetTrigger asChild>
