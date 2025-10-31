@@ -19,6 +19,7 @@ import {
   Briefcase,
   Calendar,
   Download,
+  FileText,
   Github,
   Linkedin,
   Mail,
