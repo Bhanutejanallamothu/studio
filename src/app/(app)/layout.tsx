@@ -28,7 +28,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <div id="stars"></div>
       <div id="stars2"></div>
       <div id="stars3"></div>
-      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-6xl items-center gap-4 rounded-full border border-white/5 bg-white/5 p-2 shadow-lg backdrop-blur-sm md:px-4">
+      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-7xl items-center gap-4 rounded-full border border-white/5 bg-black/10 p-2 shadow-lg backdrop-blur-md md:px-4">
         <div className="flex items-center gap-4">
           <Logo />
           <div className="hidden md:flex">
