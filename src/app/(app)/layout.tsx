@@ -14,6 +14,7 @@ import {
 import { PanelLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { type FormEvent } from "react";
+import { ThemeToggle } from "@/components/app/theme-toggle";
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -28,7 +29,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen w-full flex-col">
-      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-6xl items-center gap-4 rounded-full border bg-background/80 p-2 shadow-lg backdrop-blur-sm md:px-4">
+      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-6xl items-center gap-4 rounded-full border bg-card/60 p-2 shadow-lg backdrop-blur-sm md:px-4">
         <div className="flex items-center gap-4">
             <Logo />
             <div className="hidden md:flex">
@@ -36,7 +37,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
             </div>
         </div>
         
-        <div className="flex flex-1 items-center justify-end gap-4">
+        <div className="flex flex-1 items-center justify-end gap-2">
             <form className="hidden sm:flex flex-1 max-w-sm" onSubmit={handleSearch}>
                  <div className="relative w-full">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -48,6 +49,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     />
                 </div>
             </form>
+          <ThemeToggle />
           <UserNav />
            <Sheet>
             <SheetTrigger asChild>
