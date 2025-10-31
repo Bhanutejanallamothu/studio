@@ -49,18 +49,17 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <div id="stars2"></div>
       <div id="stars3"></div>
       
-      <div className="absolute top-4 right-4 z-50">
-        <UserNav />
-      </div>
 
-      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-screen-xl items-center justify-between gap-4 rounded-full border-white/5 bg-black/10 p-2 shadow-lg backdrop-blur-md md:px-4">
+      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-screen-xl items-center justify-between gap-4 rounded-full border-white/5 bg-black/10 p-2 shadow-lg backdrop-blur-md md:px-8">
         <div className="flex items-center gap-4">
           <Logo />
+           <div className="hidden md:flex">
+             <MainNav />
+           </div>
         </div>
 
         <div className="flex flex-1 items-center justify-end gap-4">
           <div className="hidden md:flex items-center gap-4">
-            <MainNav />
             <Popover>
                 <PopoverTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-full">
@@ -72,6 +71,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 </PopoverContent>
              </Popover>
             <ThemeToggle />
+            <UserNav />
           </div>
           <Sheet>
             <SheetTrigger asChild>
@@ -95,8 +95,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <div className="flex-1 overflow-y-auto">
                   <MainNav isMobile={true} />
                 </div>
-                 <div className="p-4 mt-auto border-t">
+                 <div className="p-4 mt-auto border-t flex justify-between items-center">
                     <ThemeToggle />
+                    <UserNav />
                 </div>
               </div>
             </SheetContent>
