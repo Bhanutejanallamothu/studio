@@ -1,12 +1,12 @@
 "use client"
 
-import { useEffect } from "react"
 import { useTheme } from "next-themes"
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
 
   // Ensure the toggle is in the correct state on initial load
+  // The checkbox is "checked" when the theme is "dark"
   const isChecked = theme === 'dark';
 
   const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
