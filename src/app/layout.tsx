@@ -23,15 +23,14 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
         <link
-          href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,300,400&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Source+Sans+Pro:wght@300;400;700&display=swap"
           rel="stylesheet"
         />
       </head>
       <body className="font-body bg-background">
+        <div id='stars'></div>
+        <div id='stars2'></div>
+        <div id='stars3'></div>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
