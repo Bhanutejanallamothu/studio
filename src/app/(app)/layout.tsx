@@ -58,7 +58,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
            </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-end gap-2">
+        <div className="flex items-center gap-2">
           <div className="hidden md:flex items-center gap-2">
             <Popover>
                 <PopoverTrigger asChild>
@@ -70,6 +70,8 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     <SearchBar />
                 </PopoverContent>
              </Popover>
+          </div>
+          <div className="hidden md:flex items-center gap-4">
             <ThemeToggle />
             <UserNav />
           </div>
