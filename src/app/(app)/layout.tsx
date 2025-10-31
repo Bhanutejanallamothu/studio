@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Logo } from '@/components/app/logo';
@@ -55,7 +56,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <header className="sticky top-4 z-40 mx-auto flex w-full max-w-screen-xl items-center justify-between gap-4 rounded-full border-white/5 bg-black/10 p-2 shadow-lg backdrop-blur-md md:px-4">
         <div className="flex items-center gap-4">
           <Logo />
-          <div className="hidden md:flex items-center gap-2">
+        </div>
+
+        <div className="flex flex-1 items-center justify-end gap-4">
+          <div className="hidden md:flex items-center gap-4">
             <MainNav />
             <Popover>
                 <PopoverTrigger asChild>
@@ -67,11 +71,6 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                     <SearchBar />
                 </PopoverContent>
              </Popover>
-          </div>
-        </div>
-
-        <div className="flex flex-1 items-center justify-end gap-4">
-          <div className="flex items-center gap-4">
             <ThemeToggle />
           </div>
           <Sheet>
@@ -95,6 +94,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                  </div>
                 <div className="flex-1 overflow-y-auto">
                   <MainNav isMobile={true} />
+                </div>
+                 <div className="p-4 mt-auto border-t">
+                    <ThemeToggle />
                 </div>
               </div>
             </SheetContent>
