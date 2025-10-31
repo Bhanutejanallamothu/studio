@@ -1,6 +1,7 @@
 "use client"
 
 import { useTheme } from "next-themes"
+import React from 'react';
 
 export function ThemeToggle() {
   const { theme, setTheme } = useTheme()
