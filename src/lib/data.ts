@@ -1,4 +1,4 @@
-import type { User, Project, Activity, Task, Ticket } from "./types";
+import type { User, Project, Activity, Task, Ticket, Portfolio } from "./types";
 
 export const mockUsers: User[] = [
   { id: "1", name: "Alice Johnson", email: "alice@example.com", avatarUrl: "https://picsum.photos/seed/user1/40/40", role: "Student" },
@@ -123,3 +123,73 @@ export const activityTimelineData = [
     { action: 'Code review session with mentor', timestamp: 'Yesterday, 2:00 PM', color: 'bg-green-500' },
     { action: 'Fixed authentication bug', timestamp: 'Aug 17, 4:15 PM', color: 'bg-yellow-500' },
 ];
+
+export const mockPortfolio: Portfolio = {
+    personalOverview: {
+      fullName: "Alex Kumar",
+      role: "Developer",
+      headline: "AI Developer Intern | Cloud Enthusiast",
+      bio: "Aspiring software developer with a passion for building intelligent applications and scalable cloud solutions. Eager to learn and contribute to real-world projects.",
+      contact: {
+        email: "alex.kumar@example.com",
+        phone: "+1 (555) 123-4567"
+      },
+      links: {
+        linkedin: "https://linkedin.com/in/alexkumar",
+        github: "https://github.com/alexkumar"
+      },
+      resumeUrl: "/resume.pdf",
+      location: {
+        country: "USA",
+        timeZone: "PST"
+      }
+    },
+    internshipSummary: {
+      title: "AI Developer Intern",
+      duration: "June 2024 - Sept 2024",
+      projectName: "E-Learning Platform",
+      mentor: "Dr. Sarah Chen",
+      projectCategory: "AI, Web Dev",
+      roleDescription: "Developed and integrated AI features into a web-based e-learning platform, focusing on backend services and model deployment.",
+      team: ["Alice", "Bob", "Charlie"],
+      institution: "State University",
+      batchNumber: "Summer '24"
+    },
+    skills: {
+        primary: ["React", "Node.js", "Docker"],
+        secondary: ["Git", "Agile", "Kubernetes"],
+        certifications: ["GCP Associate Cloud Engineer", "Genkit Certified Developer"],
+    },
+    projects: [{
+        title: "AI-Powered Course Recommender",
+        description: "Built a recommendation engine using Genkit to suggest courses to users based on their profile and activity.",
+        techStack: ["Genkit", "Next.js", "Tailwind"],
+        repoLink: "https://github.com/alexkumar/recommender",
+        demoLink: "#",
+        mentorFeedback: "Excellent work on the recommendation logic. The API is well-structured and efficient.",
+        aiEvaluationScore: 92,
+    }],
+    performance: {
+        taskCompletionRate: 88,
+        timelySubmissionScore: 95,
+        codeQuality: 92,
+        peerCollabScore: 90,
+    },
+    mentorship: {
+        latestComments: [
+            { comment: "Great progress on the new feature. Consider adding more unit tests.", mentor: "Dr. Chen" },
+            { comment: "Your code is clean and well-documented. Keep it up!", mentor: "Dr. Chen" }
+        ],
+        aiSummary: {
+            strengths: "Proactive, quick learner, strong problem-solving skills.",
+            improvements: "Focus on edge-case testing and performance optimization."
+        }
+    },
+    futureGoals: {
+        careerGoals: "To become a Senior Cloud AI Engineer, specializing in building and deploying large-scale intelligent systems.",
+        aiRecommendation: {
+            title: "Cloud DevOps Pathway",
+            description: "Your skills in Docker and interest in AI make you a great fit for a DevOps role focusing on MLOps."
+        }
+    }
+  };

@@ -44,3 +44,73 @@ export type Ticket = {
   reportedBy: string;
   created: string;
 }
+
+export type Portfolio = {
+    personalOverview: {
+      fullName: string;
+      role: string;
+      headline: string;
+      bio: string;
+      contact: {
+        email: string;
+        phone?: string;
+      };
+      links: {
+        linkedin: string;
+        github: string;
+      };
+      resumeUrl: string;
+      location: {
+        country: string;
+        timeZone: string;
+      };
+    };
+    internshipSummary: {
+      title: string;
+      duration: string;
+      projectName: string;
+      mentor: string;
+      projectCategory: string;
+      roleDescription: string;
+      team: string[];
+      institution: string;
+      batchNumber: string;
+    };
+    skills: {
+        primary: string[];
+        secondary: string[];
+        certifications: string[];
+    };
+    projects: {
+        title: string;
+        description: string;
+        techStack: string[];
+        repoLink: string;
+        demoLink: string;
+        mentorFeedback: string;
+        aiEvaluationScore: number;
+    }[];
+    performance: {
+        taskCompletionRate: number;
+        timelySubmissionScore: number;
+        codeQuality: number;
+        peerCollabScore: number;
+    },
+    mentorship: {
+        latestComments: {
+            comment: string;
+            mentor: string;
+        }[];
+        aiSummary: {
+            strengths: string;
+            improvements: string;
+        }
+    },
+    futureGoals: {
+        careerGoals: string;
+        aiRecommendation: {
+            title: string,
+            description: string;
+        }
+    }
+  };
