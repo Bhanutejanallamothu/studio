@@ -10,11 +10,11 @@
     --card-foreground: 224 71% 4%; /* #111827 */
     --popover: 0 0% 100%;
     --popover-foreground: 224 71% 4%;
-    --primary: 245 80% 69%;
+    --primary: 221 83% 53%; /* #2563EB */
     --primary-foreground: 210 40% 98%;
-    --secondary: 145 63% 46%; /* #22C55E */
-    --secondary-foreground: 0 0% 100%;
-    --accent: 176 77% 44%;
+    --secondary: 145 63% 49%; /* #22C55E */
+    --secondary-foreground: 210 40% 98%;
+    --accent: 44 96% 52%; /* #FACC15 */
     --accent-foreground: 224 71% 4%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -27,28 +27,40 @@
     --chart-3: 45 93% 53%;
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
+
+    --toggle-border-color: #8c8c8c;
+    --toggle-shadow-color: #999;
+    --toggle-bg-shadow1: #ccc;
+    --toggle-bg-shadow2: #ddd;
+    --toggle-bg-shadow3: #fff;
   }
 
   .dark {
-    --background: 222 84% 4%;
+    --background: 222 47% 11%; /* #0F172A */
     --foreground: 210 40% 98%;
     --card: 222 47% 15%;
     --card-foreground: 210 40% 98%;
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
-    --primary: 245 80% 69%;
+    --primary: 221 83% 53%;
     --primary-foreground: 222 47% 11%;
-    --secondary: 145 63% 46%;
+    --secondary: 145 63% 49%;
     --secondary-foreground: 210 40% 98%;
     --muted: 217 32% 17%;
     --muted-foreground: 215 20% 65%;
-    --accent: 176 77% 44%;
+    --accent: 44 96% 52%;
     --accent-foreground: 210 40% 9.8%;
     --destructive: 0 62% 30%;
     --destructive-foreground: 0 0% 98%;
     --border: 217 32% 27%;
     --input: 217 32% 27%;
     --ring: 212 72% 51%;
+
+    --toggle-border-color: hsl(var(--border));
+    --toggle-shadow-color: hsl(var(--border));
+    --toggle-bg-shadow1: #000;
+    --toggle-bg-shadow2: #0F172A;
+    --toggle-bg-shadow3: #222;
   }
 }
 
@@ -69,7 +81,7 @@
   }
 
   .light body {
-    background-image: linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--accent) / 0.1) 100%);
+    background-image: linear-gradient(135deg, hsl(var(--primary) / 0.1) 0%, hsl(var(--secondary) / 0.1) 100%);
   }
 
   main {
@@ -154,9 +166,11 @@
   /* =====================================================
     Text Toggle Styles
    ===================================================== */
-  .toggle--text {
+  .toggle {
+    display: block;
+    text-align: center;
+    margin-top: 40px;
     user-select: none;
-    transform: scale(0.6);
   }
   .toggle--checkbox {
     display: none;
@@ -181,6 +195,9 @@
     display: block;
   }
 
+  .toggle--text {
+    transform: scale(0.6);
+  }
   .toggle--text .toggle--btn {
     position: relative;
     width: 180px;
@@ -189,14 +206,18 @@
     text-transform: uppercase;
     font-weight: bold;
     border-radius: 40px;
-    border: 1px solid #8c8c8c;
-    border-right: 2px solid #8c8c8c;
+    border: 1px solid var(--toggle-border-color);
+    border-right: 2px solid var(--toggle-border-color);
     box-shadow: inset 90px 0 10px rgba(255, 255, 255, 0.6),
-      inset -3px 3px 18px -2px #8c8c8c, 0 0 15px #ccc, 0px -5px 16px 1px #ddd,
-      -5px -5px 16px 1px #ddd, 5px -5px 16px 1px #ddd,
-      -5px -5px 16px 1px #ddd, 5px -5px 16px 1px #ddd,
+      inset -3px 3px 18px -2px var(--toggle-border-color),
+      0 0 15px var(--toggle-bg-shadow1),
+      0px -5px 16px 1px var(--toggle-bg-shadow2),
+      -5px -5px 16px 1px var(--toggle-bg-shadow2),
+      5px -5px 16px 1px var(--toggle-bg-shadow2),
+      -5px -5px 16px 1px var(--toggle-bg-shadow2),
+      5px -5px 16px 1px var(--toggle-bg-shadow2),
       17px 9px 0 -5px rgba(255, 255, 255, 0.6), -3px 6px 12px -7px #000,
-      0 0 0 14px #fff, 0 0 0 15px #999;
+      0 0 0 14px var(--toggle-bg-shadow3), 0 0 0 15px var(--toggle-shadow-color);
   }
   .toggle--text .toggle--btn:before,
   .toggle--text .toggle--btn:after {
@@ -207,28 +228,32 @@
   .toggle--text .toggle--btn:before {
     content: attr(data-label-on);
     left: 15%;
-    color: #999; /* Inactive color */
+    color: hsl(var(--muted-foreground));
   }
   .toggle--text .toggle--btn:after {
     content: attr(data-label-off);
     right: 15%;
-    color: hsl(var(--primary)); /* Active color */
+    color: hsl(var(--primary));
   }
 
   .toggle--checkbox:checked + .toggle--btn {
-    border-left: 2px solid #8c8c8c;
-    border-right: 1px solid #8c8c8c;
+    border-left: 2px solid var(--toggle-border-color);
+    border-right: 1px solid var(--toggle-border-color);
     box-shadow: inset -90px 0 10px rgba(255, 255, 255, 0),
-      inset 3px 3px 18px -2px #8c8c8c, 0 0 15px #ccc, 0px -5px 16px 1px #ddd,
-      -5px -5px 16px 1px #ddd, 5px -5px 16px 1px #ddd,
-      -5px -5px 16px 1px #ddd, 5px -5px 16px 1px #ddd,
+      inset 3px 3px 18px -2px var(--toggle-border-color),
+      0 0 15px var(--toggle-bg-shadow1),
+      0px -5px 16px 1px var(--toggle-bg-shadow2),
+      -5px -5px 16px 1px var(--toggle-bg-shadow2),
+      5px -5px 16px 1px var(--toggle-bg-shadow2),
+      -5px -5px 16px 1px var(--toggle-bg-shadow2),
+      5px -5px 16px 1px var(--toggle-bg-shadow2),
       -17px 9px 0 -5px rgba(255, 255, 255, 0.6), 3px 6px 12px -7px #000,
-      0 0 0 14px #fff, 0 0 0 15px #999;
+      0 0 0 14px var(--toggle-bg-shadow3), 0 0 0 15px var(--toggle-shadow-color);
   }
   .toggle--checkbox:checked + .toggle--btn:before {
-    color: hsl(var(--primary)); /* Active color */
+    color: hsl(var(--primary));
   }
   .toggle--checkbox:checked + .toggle--btn:after {
-    color: #999; /* Inactive color */
+    color: hsl(var(--muted-foreground));
   }
 }
