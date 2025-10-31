@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from "react";
@@ -218,7 +219,12 @@ export default function PortfolioPage() {
                         </div>
                     </div>
                      <Separator className="my-4"/>
-                     <Button className="w-full"><Download className="mr-2"/>Download Resume</Button>
+                      <Button className="w-full" asChild>
+                        <a href={portfolioData.personalOverview.resumeUrl} download>
+                          <Download className="mr-2" />
+                          Download Resume
+                        </a>
+                      </Button>
                 </CardContent>
             </Card>
 
