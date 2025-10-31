@@ -12,6 +12,7 @@ import { useRouter } from 'next/navigation';
 import { type FormEvent } from 'react';
 import { ThemeToggle } from '@/components/app/theme-toggle';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
