@@ -29,6 +29,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="flex min-h-screen w-full flex-col">
+      <div id="stars"></div>
+      <div id="stars2"></div>
+      <div id="stars3"></div>
       <header className="sticky top-4 z-40 mx-auto flex w-full max-w-6xl items-center gap-4 rounded-full border bg-card/60 p-2 shadow-lg backdrop-blur-sm md:px-4">
         <div className="flex items-center gap-4">
             <Logo />
