@@ -3,24 +3,43 @@
 import { useSearchParams } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { FileText, FolderKanban, MessageSquare, Ticket } from "lucide-react";
+import { FileText, FolderKanban, MessageSquare, Ticket, type LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState, Suspense } from "react";
+import { search, type SearchOutput } from "@/ai/flows/search-flow";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const mockResults = [
-  { id: 1, type: "Document", title: "Software Requirements Specification", path: "/documents", icon: FileText },
-  { id: 2, type: "Project", title: "E-Learning Platform", path: "/projects/p1", icon: FolderKanban },
-  { id: 3, type: "Chat", title: "#development channel", path: "/chats", icon: MessageSquare },
-  { id: 4, type: "Ticket", title: "Login page not responsive", path: "/tickets", icon: Ticket },
-  { id: 5, type: "Document", title: "API Integration Guide", path: "/documents", icon: FileText },
-];
+const iconMap: Record<string, LucideIcon> = {
+  Document: FileText,
+  Project: FolderKanban,
+  Chat: MessageSquare,
+  Ticket: Ticket,
+};
 
-export default function SearchPage() {
+function SearchResults() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q");
+  const [results, setResults] = useState<SearchOutput['results']>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const filteredResults = query 
-    ? mockResults.filter(result => result.title.toLowerCase().includes(query.toLowerCase()))
-    : [];
+  useEffect(() => {
+    if (query) {
+      setIsLoading(true);
+      search({ query })
+        .then(response => {
+          setResults(response.results);
+        })
+        .catch(error => {
+          console.error("Search failed:", error);
+          setResults([]);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setResults([]);
+    }
+  }, [query]);
 
   return (
     <div className="container mx-auto p-4">
@@ -42,26 +61,39 @@ export default function SearchPage() {
       {query && (
         <Card>
           <CardHeader>
-            <CardTitle>{filteredResults.length} results found</CardTitle>
+            <CardTitle>{isLoading ? 'Searching...' : `${results.length} results found`}</CardTitle>
           </CardHeader>
           <CardContent className="grid gap-4">
-            {filteredResults.length > 0 ? (
-              filteredResults.map((result) => (
-                <Link href={result.path} key={result.id}>
-                    <div className="p-4 border rounded-lg hover:bg-muted transition-colors">
-                        <div className="flex items-center gap-4">
-                            <result.icon className="h-6 w-6 text-muted-foreground" />
-                            <div>
-                                <div className="flex items-center gap-2">
-                                    <h3 className="font-semibold">{result.title}</h3>
-                                    <Badge variant="secondary">{result.type}</Badge>
+            {isLoading ? (
+              Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="p-4 border rounded-lg flex items-center gap-4">
+                    <Skeleton className="h-6 w-6 rounded-md" />
+                    <div className="space-y-2">
+                        <Skeleton className="h-4 w-48" />
+                        <Skeleton className="h-3 w-32" />
+                    </div>
+                </div>
+              ))
+            ) : results.length > 0 ? (
+              results.map((result) => {
+                const Icon = iconMap[result.type] || FileText;
+                return (
+                    <Link href={result.path} key={result.id}>
+                        <div className="p-4 border rounded-lg hover:bg-muted transition-colors">
+                            <div className="flex items-center gap-4">
+                                <Icon className="h-6 w-6 text-muted-foreground" />
+                                <div>
+                                    <div className="flex items-center gap-2">
+                                        <h3 className="font-semibold">{result.title}</h3>
+                                        <Badge variant="secondary">{result.type}</Badge>
+                                    </div>
+                                    <p className="text-sm text-muted-foreground">{result.path}</p>
                                 </div>
-                                <p className="text-sm text-muted-foreground">{result.path}</p>
                             </div>
                         </div>
-                    </div>
-                </Link>
-              ))
+                    </Link>
+                )
+              })
             ) : (
               <p className="text-muted-foreground text-center py-8">
                 No results found for your query.
@@ -72,4 +104,12 @@ export default function SearchPage() {
       )}
     </div>
   );
+}
+
+export default function SearchPage() {
+    return (
+        <Suspense fallback={<div>Loading...</div>}>
+            <SearchResults />
+        </Suspense>
+    )
 }
