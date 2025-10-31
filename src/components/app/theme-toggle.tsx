@@ -1,40 +1,33 @@
 "use client"
 
-import * as React from "react"
-import { Moon, Sun } from "lucide-react"
+import { useEffect } from "react"
 import { useTheme } from "next-themes"
 
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
 export function ThemeToggle() {
-  const { setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
 
+  // Ensure the toggle is in the correct state on initial load
+  const isChecked = theme === 'dark';
+
+  const handleToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTheme(e.target.checked ? 'dark' : 'light');
+  };
+  
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="icon" className="rounded-full">
-          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-          <span className="sr-only">Toggle theme</span>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
-          Light
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
-          Dark
-        </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
-          System
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <div className="toggle toggle--text">
+      <input 
+        type="checkbox" 
+        id="theme-toggle" 
+        className="toggle--checkbox"
+        checked={isChecked}
+        onChange={handleToggle}
+      />
+      <label 
+        className="toggle--btn" 
+        htmlFor="theme-toggle" 
+        data-label-on="Dark"  
+        data-label-off="Light">
+      </label>
+    </div>
   )
 }
