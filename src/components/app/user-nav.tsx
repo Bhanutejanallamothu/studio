@@ -47,12 +47,6 @@ export function UserNav() {
               <span>Portfolio</span>
             </Link>
           </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-             <Link href="/purchase">
-                <CreditCard className="mr-2 h-4 w-4" />
-                <span>Billing</span>
-            </Link>
-          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
