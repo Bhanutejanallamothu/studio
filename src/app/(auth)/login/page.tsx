@@ -174,7 +174,7 @@ export default function AuthUI() {
           id="switch-c1"
           ref={switchC1Ref}
         >
-          <h2 className="auth-switch__title auth-title">Welcome Back !</h2>
+          <h2 className="auth-switch__title auth-title">CorporateIntern</h2>
           <p className="auth-switch__description auth-description">
             To keep connected with us please login with your personal info
           </p>
@@ -188,7 +188,7 @@ export default function AuthUI() {
           id="switch-c2"
           ref={switchC2Ref}
         >
-          <h2 className="auth-switch__title auth-title">Hello Friend !</h2>
+          <h2 className="auth-switch__title auth-title">CorporateIntern</h2>
           <p className="auth-switch__description auth-description">
             Enter your personal details and start journey with us
           </p>
