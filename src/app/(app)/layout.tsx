@@ -51,15 +51,15 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       
 
       <header className="sticky top-4 z-40 mx-auto flex w-full max-w-screen-xl items-center justify-between gap-4 rounded-full border-white/5 bg-black/10 p-2 shadow-lg backdrop-blur-md md:px-8">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-2">
           <Logo />
            <div className="hidden md:flex">
              <MainNav />
            </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-end gap-4">
-          <div className="hidden md:flex items-center gap-4">
+        <div className="flex flex-1 items-center justify-end gap-2">
+          <div className="hidden md:flex items-center gap-2">
             <Popover>
                 <PopoverTrigger asChild>
                     <Button variant="ghost" size="icon" className="rounded-full">
