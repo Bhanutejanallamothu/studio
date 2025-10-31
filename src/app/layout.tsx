@@ -28,9 +28,6 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body bg-background">
-        <div id='stars'></div>
-        <div id='stars2'></div>
-        <div id='stars3'></div>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
