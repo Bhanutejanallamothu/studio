@@ -11,6 +11,7 @@ import { PanelLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { type FormEvent } from 'react';
 import { ThemeToggle } from '@/components/app/theme-toggle';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -22,6 +23,23 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       router.push(`/search?q=${encodeURIComponent(query)}`);
     }
   };
+  
+  const SearchBar = ({isMobile = false}: {isMobile?: boolean}) => (
+    <form
+        className={cn("flex w-full", isMobile ? "px-4 py-2" : "max-w-xs")}
+        onSubmit={handleSearch}
+      >
+        <div className="relative w-full">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <Input
+            type="search"
+            name="search"
+            placeholder="Search..."
+            className="pl-9 w-full"
+          />
+        </div>
+      </form>
+  )
 
   return (
     <div className="relative flex min-h-screen w-full flex-col">
@@ -33,7 +51,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         <UserNav />
       </div>
 
-      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-screen-lg items-center gap-4 rounded-full border-white/5 bg-black/10 p-2 shadow-lg backdrop-blur-md md:px-4">
+      <header className="sticky top-4 z-40 mx-auto flex w-full max-w-screen-xl items-center justify-between gap-4 rounded-full border-white/5 bg-black/10 p-2 shadow-lg backdrop-blur-md md:px-4">
         <div className="flex items-center gap-4">
           <Logo />
           <div className="hidden md:flex">
@@ -41,21 +59,19 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
           </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-end gap-4">
-          <form
-            className="hidden sm:flex flex-1 max-w-xs"
-            onSubmit={handleSearch}
-          >
-            <div className="relative w-full">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                type="search"
-                name="search"
-                placeholder="Search..."
-                className="pl-9 w-full"
-              />
-            </div>
-          </form>
+        <div className="flex flex-1 items-center justify-end gap-6">
+          <div className='hidden sm:flex'>
+             <Popover>
+                <PopoverTrigger asChild>
+                    <Button variant="ghost" size="icon" className="rounded-full">
+                        <Search className="h-5 w-5" />
+                    </Button>
+                </PopoverTrigger>
+                <PopoverContent className='p-0'>
+                    <SearchBar />
+                </PopoverContent>
+             </Popover>
+          </div>
           <div className="flex items-center gap-4">
             <ThemeToggle />
           </div>
@@ -75,19 +91,9 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
                 <div className="p-6 border-b">
                   <Logo />
                 </div>
-                <div className="p-4">
-                  <form className="w-full" onSubmit={handleSearch}>
-                    <div className="relative">
-                      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                      <Input
-                        type="search"
-                        name="search"
-                        placeholder="Search..."
-                        className="pl-9 w-full"
-                      />
-                    </div>
-                  </form>
-                </div>
+                 <div className="p-2">
+                   <SearchBar isMobile={true} />
+                 </div>
                 <div className="flex-1 overflow-y-auto">
                   <MainNav isMobile={true} />
                 </div>
