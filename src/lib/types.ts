@@ -1,4 +1,5 @@
 
+
 export type Role = "Student" | "Project Manager" | "Admin";
 
 export type User = {
@@ -52,6 +53,7 @@ export type Portfolio = {
       role: string;
       headline: string;
       bio: string;
+      photoUrl?: string;
       contact: {
         email: string;
         phone?: string;

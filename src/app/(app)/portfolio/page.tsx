@@ -2,7 +2,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Image from "next/image";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
@@ -26,6 +26,7 @@ import {
   Mail,
   MapPin,
   Phone,
+  Pencil,
   Star,
   Trophy,
   Users,
@@ -75,6 +76,7 @@ export default function PortfolioPage() {
   const { toast } = useToast();
   const [isEditMode, setIsEditMode] = useState(false);
   const [portfolioData, setPortfolioData] = useState<Portfolio>(initialPortfolio);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const userAvatar = PlaceHolderImages.find(p => p.id === 'user-avatar-main');
   const projectThumbnail = PlaceHolderImages.find(p => p.id === 'project-thumbnail-1');
@@ -105,6 +107,24 @@ export default function PortfolioPage() {
       description: "Your changes have been successfully saved.",
     });
     setIsEditMode(false);
+  };
+  
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        const newImageUrl = loadEvent.target?.result as string;
+        setPortfolioData(prev => ({
+          ...prev,
+          personalOverview: {
+            ...prev.personalOverview,
+            photoUrl: newImageUrl,
+          }
+        }));
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
 
@@ -137,10 +157,31 @@ export default function PortfolioPage() {
             {/* Personal Overview */}
             <Card>
                 <CardHeader className="text-center">
-                    <Avatar className="w-24 h-24 mx-auto ring-4 ring-primary ring-offset-4 ring-offset-background">
-                         {userAvatar && <AvatarImage src={userAvatar.imageUrl} alt={portfolioData.personalOverview.fullName} />}
-                        <AvatarFallback>{portfolioData.personalOverview.fullName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                    </Avatar>
+                     <div className="relative w-24 h-24 mx-auto">
+                        <Avatar className="w-24 h-24 mx-auto ring-4 ring-primary ring-offset-4 ring-offset-background">
+                            <AvatarImage src={portfolioData.personalOverview.photoUrl || userAvatar?.imageUrl} alt={portfolioData.personalOverview.fullName} />
+                            <AvatarFallback>{portfolioData.personalOverview.fullName.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                        </Avatar>
+                        {isEditMode && (
+                        <>
+                            <input
+                            type="file"
+                            ref={fileInputRef}
+                            onChange={handlePhotoChange}
+                            accept="image/*"
+                            className="hidden"
+                            />
+                            <Button
+                                variant="outline"
+                                size="icon"
+                                className="absolute bottom-0 right-0 rounded-full w-8 h-8"
+                                onClick={() => fileInputRef.current?.click()}
+                            >
+                                <Pencil className="w-4 h-4" />
+                            </Button>
+                        </>
+                        )}
+                    </div>
                      <CardTitle className="pt-6">
                         {isEditMode ? (
                             <Input
