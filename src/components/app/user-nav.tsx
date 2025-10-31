@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { CreditCard, LogOut, Settings, User as UserIcon } from "lucide-react";
+import { CreditCard, LogOut, User as UserIcon } from "lucide-react";
 import Link from "next/link";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 
@@ -51,12 +51,6 @@ export function UserNav() {
              <Link href="/purchase">
                 <CreditCard className="mr-2 h-4 w-4" />
                 <span>Billing</span>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem asChild>
-             <Link href="/settings">
-                <Settings className="mr-2 h-4 w-4" />
-                <span>Settings</span>
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>

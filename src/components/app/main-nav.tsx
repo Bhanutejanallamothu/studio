@@ -8,7 +8,6 @@ import {
   Users,
   BarChart3,
   LifeBuoy,
-  Settings,
   MessageSquare,
   FileText,
   Ticket,
@@ -27,7 +26,6 @@ const mainLinks = [
 
 const bottomLinks = [
   { href: "/help", label: "Help & Support", icon: LifeBuoy },
-  { href: "/settings", label: "Settings", icon: Settings },
 ];
 
 export function MainNav({ isMobile = false }: { isMobile?: boolean }) {
