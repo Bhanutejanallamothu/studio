@@ -26,7 +26,7 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="font-body bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+      <body className="font-body bg-gradient-to-br from-blue-600 to-green-500">
         {children}
         <Toaster />
       </body>
